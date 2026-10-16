@@ -1,6 +1,6 @@
 name: JoyPad
 options:
-  bundleIdPrefix: com.danzaleta
+  bundleIdPrefix: com.danielzaleta
   deploymentTarget:
     iOS: "17.0"
     macOS: "14.0"
@@ -9,7 +9,7 @@ options:
 settings:
   base:
     SWIFT_VERSION: "6.0"
-    DEVELOPMENT_TEAM: "H7P9P7FGWC"
+    DEVELOPMENT_TEAM: "SARYVXM582"
     CODE_SIGN_STYLE: "Automatic"
     GENERATE_INFOPLIST_FILE: YES
 
@@ -21,7 +21,7 @@ targets:
       - path: Sources/JoyPadProtocol
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad.protocol
+        PRODUCT_BUNDLE_IDENTIFIER: com.danielzaleta.joypad.protocol
         DEFINES_MODULE: YES
 
   JoyPadClientCore:
@@ -33,7 +33,7 @@ targets:
       - target: JoyPadProtocol
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad.clientcore
+        PRODUCT_BUNDLE_IDENTIFIER: com.danielzaleta.joypad.clientcore
         DEFINES_MODULE: YES
 
   JoyPadClient:
@@ -46,7 +46,7 @@ targets:
       - target: JoyPadProtocol
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad
+        PRODUCT_BUNDLE_IDENTIFIER: com.danielzaleta.joypad
         PRODUCT_NAME: JoyPad
         INFOPLIST_KEY_CFBundleDisplayName: JoyPad
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
@@ -64,7 +64,7 @@ targets:
       - path: Sources/JoyPadProtocol
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad.server
+        PRODUCT_BUNDLE_IDENTIFIER: com.danielzaleta.joypad.server
         PRODUCT_NAME: JoyPadServer
         INFOPLIST_KEY_CFBundleDisplayName: JoyPad Companion
         INFOPLIST_KEY_LSUIElement: YES

@@ -265,19 +265,19 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					0E1DFEE1798CB08D9C7FC411 = {
-						DevelopmentTeam = H7P9P7FGWC;
+						DevelopmentTeam = SARYVXM582;
 						ProvisioningStyle = Automatic;
 					};
 					33A3F2229D50DA503ACB21BD = {
-						DevelopmentTeam = H7P9P7FGWC;
+						DevelopmentTeam = SARYVXM582;
 						ProvisioningStyle = Automatic;
 					};
 					3C322DB0A597B249EA8E07AE = {
-						DevelopmentTeam = H7P9P7FGWC;
+						DevelopmentTeam = SARYVXM582;
 						ProvisioningStyle = Automatic;
 					};
 					7025F9840DE096FE5226CB6C = {
-						DevelopmentTeam = H7P9P7FGWC;
+						DevelopmentTeam = SARYVXM582;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -387,7 +387,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad;
 				PRODUCT_NAME = JoyPad;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -410,7 +410,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.server;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad.server;
 				PRODUCT_NAME = JoyPadServer;
 				SDKROOT = macosx;
 			};
@@ -432,7 +432,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad;
 				PRODUCT_NAME = JoyPad;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -453,7 +453,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.clientcore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad.clientcore;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -497,7 +497,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = H7P9P7FGWC;
+				DEVELOPMENT_TEAM = SARYVXM582;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -543,7 +543,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.server;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad.server;
 				PRODUCT_NAME = JoyPadServer;
 				SDKROOT = macosx;
 			};
@@ -563,7 +563,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.protocol;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad.protocol;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -585,7 +585,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.protocol;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad.protocol;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -629,7 +629,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = H7P9P7FGWC;
+				DEVELOPMENT_TEAM = SARYVXM582;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -666,7 +666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.clientcore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.danielzaleta.joypad.clientcore;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
