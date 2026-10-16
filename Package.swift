@@ -21,6 +21,10 @@ let package = Package(
         .executable(
             name: "JoyPadServer",
             targets: ["JoyPadServer"]
+        ),
+        .executable(
+            name: "JoyPadCLI",
+            targets: ["JoyPadCLI"]
         )
     ],
     targets: [
@@ -40,6 +44,16 @@ let package = Package(
         .executableTarget(
             name: "JoyPadServer",
             dependencies: ["JoyPadProtocol"]
+        ),
+        // Interactive Test Harness CLI for macOS
+        .executableTarget(
+            name: "JoyPadCLI",
+            dependencies: ["JoyPadProtocol"]
+        ),
+        // iOS SwiftUI Client Application
+        .executableTarget(
+            name: "JoyPadClientApp",
+            dependencies: ["JoyPadClientCore"]
         ),
         // Unit tests for binary serialization and protocol integrity
         .testTarget(
