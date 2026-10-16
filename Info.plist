@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>JoyPadServer</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.danzaleta.joypad.server</string>
+    <key>CFBundleName</key>
+    <string>JoyPadServer</string>
+    <key>CFBundleDisplayName</key>
+    <string>JoyPad Companion</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>2.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>14.0</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>JoyPad necesita acceso a la red local Peer-to-Peer (AWDL) para recibir entradas de baja latencia desde tu iPhone.</string>
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_joypad._udp</string>
+        <string>_joypad._tcp</string>
+    </array>
+</dict>
+</plist>
