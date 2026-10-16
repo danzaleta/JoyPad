@@ -1,0 +1,74 @@
+name: JoyPad
+options:
+  bundleIdPrefix: com.danzaleta
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: "H7P9P7FGWC"
+    CODE_SIGN_STYLE: "Automatic"
+    GENERATE_INFOPLIST_FILE: YES
+
+targets:
+  JoyPadProtocol:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Sources/JoyPadProtocol
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad.protocol
+        DEFINES_MODULE: YES
+
+  JoyPadClientCore:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Sources/JoyPadClientCore
+    dependencies:
+      - target: JoyPadProtocol
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad.clientcore
+        DEFINES_MODULE: YES
+
+  JoyPadClient:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources/JoyPadClientApp
+    dependencies:
+      - target: JoyPadClientCore
+      - target: JoyPadProtocol
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad
+        PRODUCT_NAME: JoyPad
+        INFOPLIST_KEY_CFBundleDisplayName: JoyPad
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real."
+        INFOPLIST_KEY_NSBonjourServices:
+          - "_joypad._udp"
+          - "_joypad._tcp"
+        TARGETED_DEVICE_FAMILY: "1,2"
+
+  JoyPadServer:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/JoyPadServer
+      - path: Sources/JoyPadProtocol
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.danzaleta.joypad.server
+        PRODUCT_NAME: JoyPadServer
+        INFOPLIST_KEY_CFBundleDisplayName: JoyPad Companion
+        INFOPLIST_KEY_LSUIElement: YES
+        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL)."
+        INFOPLIST_KEY_NSBonjourServices:
+          - "_joypad._udp"
+          - "_joypad._tcp"

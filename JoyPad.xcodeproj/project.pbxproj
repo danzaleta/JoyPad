@@ -1,0 +1,728 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		21073B682AE28821931175B9 /* Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CA0FED5D18303E27A0DD14 /* Payloads.swift */; };
+		31C8594A1888D225EEF662B3 /* PadSessionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E840503A8080FF0A2A7BDDE /* PadSessionClient.swift */; };
+		39E0055E3B23F47B7718F758 /* UniversalPadMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC62442575D965F7F3B484 /* UniversalPadMainView.swift */; };
+		3D4B0B8ABAE45964863BC214 /* PacketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4991217CE353ED89C78E2A3A /* PacketTypes.swift */; };
+		6A6CFCC52C90884EDFFCAEDE /* Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CA0FED5D18303E27A0DD14 /* Payloads.swift */; };
+		7A3A0CDE5B3DC1965711EF28 /* PacketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4991217CE353ED89C78E2A3A /* PacketTypes.swift */; };
+		86175D95C3E9995E3BAE4D7D /* JoyPadClientCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DF2729952FC63A74A5E9F127 /* JoyPadClientCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		90EFF0009967F8F55E33779A /* JoyPadClientCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2729952FC63A74A5E9F127 /* JoyPadClientCore.framework */; };
+		9F5DD4B38DC190D463266B95 /* JoyPadServerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79536E04F10D16992CC46108 /* JoyPadServerApp.swift */; };
+		AAD9F6A5E20D490845D3E49B /* TrackpadInjectionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C76A27821AED7EB92D1860 /* TrackpadInjectionEngine.swift */; };
+		B1C46218F127EE04C318243D /* JoyPadCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245A08DB18BCB0258341F29 /* JoyPadCodec.swift */; };
+		B4C687ACE475384D46FA2EFA /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A95D8676D8ACC82FC9311D8 /* NetworkConfig.swift */; };
+		BF75279AEA95AEC95AE28C52 /* JoyPadProtocol.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4861B86784EF60EF2B83B756 /* JoyPadProtocol.framework */; };
+		C361224C1D16A5A21A99D137 /* TapticEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CFFCAD5EF44A238964F83B /* TapticEngineManager.swift */; };
+		C98FC8742BCD1FA3BCDE59B1 /* JoyPadServerEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1FB20448FB2A00DEE46F41 /* JoyPadServerEngine.swift */; };
+		CA4D9621168F49A3101BFFE4 /* JoyPadProtocol.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4861B86784EF60EF2B83B756 /* JoyPadProtocol.framework */; };
+		CC83D583D2212B10F771C21D /* GamepadInjectionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D6AE96B44257A28F7256BA /* GamepadInjectionEngine.swift */; };
+		D218860ADDB92EFF7FD5F55B /* JoyPadProtocol.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4861B86784EF60EF2B83B756 /* JoyPadProtocol.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D553E5210749192A1C35ECF1 /* KeyboardInjectionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BBF1E7601C6ECB51E6246C /* KeyboardInjectionEngine.swift */; };
+		D80ED2911778720CE775E18A /* NetworkConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A95D8676D8ACC82FC9311D8 /* NetworkConfig.swift */; };
+		FA07A18756C0CF7EF2C4DF72 /* JoyPadClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6DC2671F45799CAD541B1F /* JoyPadClientApp.swift */; };
+		FD91A9AC785E49949D096447 /* JoyPadCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4245A08DB18BCB0258341F29 /* JoyPadCodec.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		738A625364666370FF4593B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E4300E4B48C624E7F0B56EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C322DB0A597B249EA8E07AE;
+			remoteInfo = JoyPadClientCore;
+		};
+		CC662BAADAF83EA13F337C49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E4300E4B48C624E7F0B56EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 33A3F2229D50DA503ACB21BD;
+			remoteInfo = JoyPadProtocol;
+		};
+		E7641907575E49D3A725FACA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E4300E4B48C624E7F0B56EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 33A3F2229D50DA503ACB21BD;
+			remoteInfo = JoyPadProtocol;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		684ACC618B4450037CB6D71A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				86175D95C3E9995E3BAE4D7D /* JoyPadClientCore.framework in Embed Frameworks */,
+				D218860ADDB92EFF7FD5F55B /* JoyPadProtocol.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0B1FB20448FB2A00DEE46F41 /* JoyPadServerEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyPadServerEngine.swift; sourceTree = "<group>"; };
+		29AB6A340E0D640CA9764066 /* JoyPadClient.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = JoyPadClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4245A08DB18BCB0258341F29 /* JoyPadCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyPadCodec.swift; sourceTree = "<group>"; };
+		4861B86784EF60EF2B83B756 /* JoyPadProtocol.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JoyPadProtocol.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4991217CE353ED89C78E2A3A /* PacketTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTypes.swift; sourceTree = "<group>"; };
+		6E840503A8080FF0A2A7BDDE /* PadSessionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadSessionClient.swift; sourceTree = "<group>"; };
+		74C76A27821AED7EB92D1860 /* TrackpadInjectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackpadInjectionEngine.swift; sourceTree = "<group>"; };
+		75D6AE96B44257A28F7256BA /* GamepadInjectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamepadInjectionEngine.swift; sourceTree = "<group>"; };
+		79536E04F10D16992CC46108 /* JoyPadServerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyPadServerApp.swift; sourceTree = "<group>"; };
+		7E1BA27AEC0B6722FBC6AE88 /* JoyPadServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JoyPadServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E6DC2671F45799CAD541B1F /* JoyPadClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyPadClientApp.swift; sourceTree = "<group>"; };
+		90BBF1E7601C6ECB51E6246C /* KeyboardInjectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInjectionEngine.swift; sourceTree = "<group>"; };
+		9A95D8676D8ACC82FC9311D8 /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
+		A7EC62442575D965F7F3B484 /* UniversalPadMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalPadMainView.swift; sourceTree = "<group>"; };
+		B6CFFCAD5EF44A238964F83B /* TapticEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapticEngineManager.swift; sourceTree = "<group>"; };
+		C7CA0FED5D18303E27A0DD14 /* Payloads.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payloads.swift; sourceTree = "<group>"; };
+		DF2729952FC63A74A5E9F127 /* JoyPadClientCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JoyPadClientCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		49C59E6FBFD15B3560B05F97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90EFF0009967F8F55E33779A /* JoyPadClientCore.framework in Frameworks */,
+				CA4D9621168F49A3101BFFE4 /* JoyPadProtocol.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E792EA0603049B2FC46465F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BF75279AEA95AEC95AE28C52 /* JoyPadProtocol.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		30A1546DCDA9BC9D6D62CAF7 /* JoyPadClientApp */ = {
+			isa = PBXGroup;
+			children = (
+				7E6DC2671F45799CAD541B1F /* JoyPadClientApp.swift */,
+			);
+			name = JoyPadClientApp;
+			path = Sources/JoyPadClientApp;
+			sourceTree = "<group>";
+		};
+		3E4080A2340B2DB1D12D6BFD = {
+			isa = PBXGroup;
+			children = (
+				30A1546DCDA9BC9D6D62CAF7 /* JoyPadClientApp */,
+				4D6C4F00EFC2C7AD18D7EAF8 /* JoyPadClientCore */,
+				B903E263002321BE51E84E2D /* JoyPadProtocol */,
+				D10B6070F110F929DA7E93B9 /* JoyPadServer */,
+				55B7FB825E6D7FF35F588879 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4D6C4F00EFC2C7AD18D7EAF8 /* JoyPadClientCore */ = {
+			isa = PBXGroup;
+			children = (
+				6E840503A8080FF0A2A7BDDE /* PadSessionClient.swift */,
+				B6CFFCAD5EF44A238964F83B /* TapticEngineManager.swift */,
+				A7EC62442575D965F7F3B484 /* UniversalPadMainView.swift */,
+			);
+			name = JoyPadClientCore;
+			path = Sources/JoyPadClientCore;
+			sourceTree = "<group>";
+		};
+		55B7FB825E6D7FF35F588879 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				29AB6A340E0D640CA9764066 /* JoyPadClient.app */,
+				DF2729952FC63A74A5E9F127 /* JoyPadClientCore.framework */,
+				4861B86784EF60EF2B83B756 /* JoyPadProtocol.framework */,
+				7E1BA27AEC0B6722FBC6AE88 /* JoyPadServer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B903E263002321BE51E84E2D /* JoyPadProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				4245A08DB18BCB0258341F29 /* JoyPadCodec.swift */,
+				9A95D8676D8ACC82FC9311D8 /* NetworkConfig.swift */,
+				4991217CE353ED89C78E2A3A /* PacketTypes.swift */,
+				C7CA0FED5D18303E27A0DD14 /* Payloads.swift */,
+			);
+			name = JoyPadProtocol;
+			path = Sources/JoyPadProtocol;
+			sourceTree = "<group>";
+		};
+		D10B6070F110F929DA7E93B9 /* JoyPadServer */ = {
+			isa = PBXGroup;
+			children = (
+				75D6AE96B44257A28F7256BA /* GamepadInjectionEngine.swift */,
+				79536E04F10D16992CC46108 /* JoyPadServerApp.swift */,
+				0B1FB20448FB2A00DEE46F41 /* JoyPadServerEngine.swift */,
+				90BBF1E7601C6ECB51E6246C /* KeyboardInjectionEngine.swift */,
+				74C76A27821AED7EB92D1860 /* TrackpadInjectionEngine.swift */,
+			);
+			name = JoyPadServer;
+			path = Sources/JoyPadServer;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0E1DFEE1798CB08D9C7FC411 /* JoyPadClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AB407C9A7B2C066F56882C6 /* Build configuration list for PBXNativeTarget "JoyPadClient" */;
+			buildPhases = (
+				92DCFC80158163E8D6E5B924 /* Sources */,
+				49C59E6FBFD15B3560B05F97 /* Frameworks */,
+				684ACC618B4450037CB6D71A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				172306F9BBCE60B11B98EC5A /* PBXTargetDependency */,
+				2664037C60DEB33B6CF4B7D0 /* PBXTargetDependency */,
+			);
+			name = JoyPadClient;
+			packageProductDependencies = (
+			);
+			productName = JoyPadClient;
+			productReference = 29AB6A340E0D640CA9764066 /* JoyPadClient.app */;
+			productType = "com.apple.product-type.application";
+		};
+		33A3F2229D50DA503ACB21BD /* JoyPadProtocol */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 92661B4A688943F9DC49E4BD /* Build configuration list for PBXNativeTarget "JoyPadProtocol" */;
+			buildPhases = (
+				91B8E1F3EB13181DF9895592 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JoyPadProtocol;
+			packageProductDependencies = (
+			);
+			productName = JoyPadProtocol;
+			productReference = 4861B86784EF60EF2B83B756 /* JoyPadProtocol.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3C322DB0A597B249EA8E07AE /* JoyPadClientCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7659ABCBE6A9CC7FD81B97B6 /* Build configuration list for PBXNativeTarget "JoyPadClientCore" */;
+			buildPhases = (
+				E8D45131A12185163D47C3BA /* Sources */,
+				E792EA0603049B2FC46465F7 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B4B4467742AB1B1927922C09 /* PBXTargetDependency */,
+			);
+			name = JoyPadClientCore;
+			packageProductDependencies = (
+			);
+			productName = JoyPadClientCore;
+			productReference = DF2729952FC63A74A5E9F127 /* JoyPadClientCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		7025F9840DE096FE5226CB6C /* JoyPadServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 54152E4DB8FE4AFBE9C66CE1 /* Build configuration list for PBXNativeTarget "JoyPadServer" */;
+			buildPhases = (
+				29B75A134F321973B73F2A66 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JoyPadServer;
+			packageProductDependencies = (
+			);
+			productName = JoyPadServer;
+			productReference = 7E1BA27AEC0B6722FBC6AE88 /* JoyPadServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E4300E4B48C624E7F0B56EF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					0E1DFEE1798CB08D9C7FC411 = {
+						DevelopmentTeam = H7P9P7FGWC;
+						ProvisioningStyle = Automatic;
+					};
+					33A3F2229D50DA503ACB21BD = {
+						DevelopmentTeam = H7P9P7FGWC;
+						ProvisioningStyle = Automatic;
+					};
+					3C322DB0A597B249EA8E07AE = {
+						DevelopmentTeam = H7P9P7FGWC;
+						ProvisioningStyle = Automatic;
+					};
+					7025F9840DE096FE5226CB6C = {
+						DevelopmentTeam = H7P9P7FGWC;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 077D8B6986BB40E881FF8762 /* Build configuration list for PBXProject "JoyPad" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3E4080A2340B2DB1D12D6BFD;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 55B7FB825E6D7FF35F588879 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				33A3F2229D50DA503ACB21BD /* JoyPadProtocol */,
+				3C322DB0A597B249EA8E07AE /* JoyPadClientCore */,
+				0E1DFEE1798CB08D9C7FC411 /* JoyPadClient */,
+				7025F9840DE096FE5226CB6C /* JoyPadServer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		29B75A134F321973B73F2A66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC83D583D2212B10F771C21D /* GamepadInjectionEngine.swift in Sources */,
+				B1C46218F127EE04C318243D /* JoyPadCodec.swift in Sources */,
+				9F5DD4B38DC190D463266B95 /* JoyPadServerApp.swift in Sources */,
+				C98FC8742BCD1FA3BCDE59B1 /* JoyPadServerEngine.swift in Sources */,
+				D553E5210749192A1C35ECF1 /* KeyboardInjectionEngine.swift in Sources */,
+				D80ED2911778720CE775E18A /* NetworkConfig.swift in Sources */,
+				7A3A0CDE5B3DC1965711EF28 /* PacketTypes.swift in Sources */,
+				21073B682AE28821931175B9 /* Payloads.swift in Sources */,
+				AAD9F6A5E20D490845D3E49B /* TrackpadInjectionEngine.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91B8E1F3EB13181DF9895592 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FD91A9AC785E49949D096447 /* JoyPadCodec.swift in Sources */,
+				B4C687ACE475384D46FA2EFA /* NetworkConfig.swift in Sources */,
+				3D4B0B8ABAE45964863BC214 /* PacketTypes.swift in Sources */,
+				6A6CFCC52C90884EDFFCAEDE /* Payloads.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		92DCFC80158163E8D6E5B924 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA07A18756C0CF7EF2C4DF72 /* JoyPadClientApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E8D45131A12185163D47C3BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31C8594A1888D225EEF662B3 /* PadSessionClient.swift in Sources */,
+				C361224C1D16A5A21A99D137 /* TapticEngineManager.swift in Sources */,
+				39E0055E3B23F47B7718F758 /* UniversalPadMainView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		172306F9BBCE60B11B98EC5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3C322DB0A597B249EA8E07AE /* JoyPadClientCore */;
+			targetProxy = 738A625364666370FF4593B7 /* PBXContainerItemProxy */;
+		};
+		2664037C60DEB33B6CF4B7D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 33A3F2229D50DA503ACB21BD /* JoyPadProtocol */;
+			targetProxy = CC662BAADAF83EA13F337C49 /* PBXContainerItemProxy */;
+		};
+		B4B4467742AB1B1927922C09 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 33A3F2229D50DA503ACB21BD /* JoyPadProtocol */;
+			targetProxy = E7641907575E49D3A725FACA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		269769A08752583CDFCF696B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = JoyPad;
+				INFOPLIST_KEY_NSBonjourServices = (
+					_joypad._udp,
+					_joypad._tcp,
+				);
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad;
+				PRODUCT_NAME = JoyPad;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		46BD00A35163378AFD595E1B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "JoyPad Companion";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSBonjourServices = (
+					_joypad._udp,
+					_joypad._tcp,
+				);
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL).";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.server;
+				PRODUCT_NAME = JoyPadServer;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		48433A339FA4BEE5B1806FAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_KEY_CFBundleDisplayName = JoyPad;
+				INFOPLIST_KEY_NSBonjourServices = (
+					_joypad._udp,
+					_joypad._tcp,
+				);
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad;
+				PRODUCT_NAME = JoyPad;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7B19E1D37958E5257A7CEC70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.clientcore;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		80A49D956FC3F4ED2E2F1E4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = H7P9P7FGWC;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		84D6DC216BAB097801669FF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "JoyPad Companion";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSBonjourServices = (
+					_joypad._udp,
+					_joypad._tcp,
+				);
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL).";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.server;
+				PRODUCT_NAME = JoyPadServer;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D2FA31DF62AB5A55F0D3A462 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.protocol;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		D6E35F4B185AE4B260E7F6A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.protocol;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+		F18B73004DAFAE23ACCB3894 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = H7P9P7FGWC;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		F797E5CB84A549FCA99CAF9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.danzaleta.joypad.clientcore;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		077D8B6986BB40E881FF8762 /* Build configuration list for PBXProject "JoyPad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				80A49D956FC3F4ED2E2F1E4A /* Debug */,
+				F18B73004DAFAE23ACCB3894 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1AB407C9A7B2C066F56882C6 /* Build configuration list for PBXNativeTarget "JoyPadClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				269769A08752583CDFCF696B /* Debug */,
+				48433A339FA4BEE5B1806FAE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		54152E4DB8FE4AFBE9C66CE1 /* Build configuration list for PBXNativeTarget "JoyPadServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46BD00A35163378AFD595E1B /* Debug */,
+				84D6DC216BAB097801669FF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7659ABCBE6A9CC7FD81B97B6 /* Build configuration list for PBXNativeTarget "JoyPadClientCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B19E1D37958E5257A7CEC70 /* Debug */,
+				F797E5CB84A549FCA99CAF9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		92661B4A688943F9DC49E4BD /* Build configuration list for PBXNativeTarget "JoyPadProtocol" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2FA31DF62AB5A55F0D3A462 /* Debug */,
+				D6E35F4B185AE4B260E7F6A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E4300E4B48C624E7F0B56EF /* Project object */;
+}
