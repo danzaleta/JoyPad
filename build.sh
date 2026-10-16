@@ -11,14 +11,25 @@ RESOURCES_DIR="${CONTENTS_DIR}/Resources"
 echo "Building JoyPad (Release)..."
 swift build -c release
 
-echo "Assembling macOS Menu Bar App Bundle (${APP_DIR})..."
+echo "Assembling macOS Companion App Bundle (${APP_DIR})..."
 mkdir -p "${MACOS_DIR}"
 mkdir -p "${RESOURCES_DIR}"
 
 cp "${BUILD_DIR}/${APP_NAME}" "${MACOS_DIR}/"
 cp "Info.plist" "${CONTENTS_DIR}/"
 
-echo "Ad-hoc signing ${APP_DIR}..."
-codesign --force -s - "${APP_DIR}"
+# Sign with Apple Development certificate if available so macOS TCC Accessibility persists across builds
+CERT_NAME="Apple Development: dan_zaleta16@icloud.com (H7P9P7FGWC)"
+if security find-identity -v -p codesigning | grep -q "${CERT_NAME}"; then
+    echo "Signing ${APP_DIR} with ${CERT_NAME}..."
+    codesign --force -s "${CERT_NAME}" "${APP_DIR}"
+else
+    echo "Ad-hoc signing ${APP_DIR}..."
+    codesign --force -s - "${APP_DIR}"
+fi
 
-echo "Done! Bundle available at: ${APP_DIR}"
+echo "Installing to /Applications/${APP_NAME}.app..."
+rm -rf "/Applications/${APP_NAME}.app"
+cp -R "${APP_DIR}" "/Applications/${APP_NAME}.app"
+
+echo "Done! Installed at /Applications/${APP_NAME}.app"

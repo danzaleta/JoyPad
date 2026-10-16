@@ -24,11 +24,11 @@ public final class GamepadInjectionEngine {
     }
 
     public func handleGamepadState(_ state: GamepadStatePayload) {
-        // 1. Left Stick -> WASD Movement
-        updateKeyState(keyCode: 13, pressed: state.leftStickY < -stickDeadzone) // W
-        updateKeyState(keyCode: 1,  pressed: state.leftStickY >  stickDeadzone) // S
-        updateKeyState(keyCode: 0,  pressed: state.leftStickX < -stickDeadzone) // A
-        updateKeyState(keyCode: 2,  pressed: state.leftStickX >  stickDeadzone) // D
+        // 1. Left Stick & D-Pad -> WASD Movement
+        updateKeyState(keyCode: 13, pressed: state.leftStickY < -stickDeadzone || state.buttons.contains(.dpadUp))    // W
+        updateKeyState(keyCode: 1,  pressed: state.leftStickY >  stickDeadzone || state.buttons.contains(.dpadDown))  // S
+        updateKeyState(keyCode: 0,  pressed: state.leftStickX < -stickDeadzone || state.buttons.contains(.dpadLeft))  // A
+        updateKeyState(keyCode: 2,  pressed: state.leftStickX >  stickDeadzone || state.buttons.contains(.dpadRight)) // D
 
         // 2. Action Buttons -> Space (Jump), Shift (Crouch/Sprint), E (Inventory), R (Reload), Esc
         updateKeyState(keyCode: 49, pressed: state.buttons.contains(.southA))     // Space

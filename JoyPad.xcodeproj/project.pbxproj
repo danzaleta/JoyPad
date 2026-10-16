@@ -376,13 +376,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_KEY_CFBundleDisplayName = JoyPad;
-				INFOPLIST_KEY_NSBonjourServices = (
-					_joypad._udp,
-					_joypad._tcp,
-				);
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real.";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_FILE = "JoyPadClient-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -399,13 +393,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "JoyPad Companion";
-				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSBonjourServices = (
-					_joypad._udp,
-					_joypad._tcp,
-				);
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL).";
+				INFOPLIST_FILE = "JoyPadServer-Xcode-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -421,13 +409,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				INFOPLIST_KEY_CFBundleDisplayName = JoyPad;
-				INFOPLIST_KEY_NSBonjourServices = (
-					_joypad._udp,
-					_joypad._tcp,
-				);
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real.";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_FILE = "JoyPadClient-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -532,13 +514,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "JoyPad Companion";
-				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSBonjourServices = (
-					_joypad._udp,
-					_joypad._tcp,
-				);
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL).";
+				INFOPLIST_FILE = "JoyPadServer-Xcode-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

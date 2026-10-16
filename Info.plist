@@ -5,7 +5,7 @@
     <key>CFBundleExecutable</key>
     <string>JoyPadServer</string>
     <key>CFBundleIdentifier</key>
-    <string>com.danzaleta.joypad.server</string>
+    <string>com.danielzaleta.joypad.server</string>
     <key>CFBundleName</key>
     <string>JoyPadServer</string>
     <key>CFBundleDisplayName</key>
@@ -15,11 +15,11 @@
     <key>CFBundleShortVersionString</key>
     <string>2.0.0</string>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <string>2</string>
     <key>LSMinimumSystemVersion</key>
     <string>14.0</string>
     <key>LSUIElement</key>
-    <true/>
+    <false/>
     <key>NSLocalNetworkUsageDescription</key>
     <string>JoyPad necesita acceso a la red local Peer-to-Peer (AWDL) para recibir entradas de baja latencia desde tu iPhone.</string>
     <key>NSBonjourServices</key>

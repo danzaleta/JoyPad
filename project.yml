@@ -44,16 +44,19 @@ targets:
     dependencies:
       - target: JoyPadClientCore
       - target: JoyPadProtocol
+    info:
+      path: JoyPadClient-Info.plist
+      properties:
+        CFBundleDisplayName: JoyPad
+        UILaunchScreen: {}
+        NSLocalNetworkUsageDescription: "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real."
+        NSBonjourServices:
+          - "_joypad._udp"
+          - "_joypad._tcp"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.danielzaleta.joypad
         PRODUCT_NAME: JoyPad
-        INFOPLIST_KEY_CFBundleDisplayName: JoyPad
-        INFOPLIST_KEY_UILaunchScreen_Generation: YES
-        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "JoyPad necesita conectarse a tu Mac vía AWDL P2P para enviar controles en tiempo real."
-        INFOPLIST_KEY_NSBonjourServices:
-          - "_joypad._udp"
-          - "_joypad._tcp"
         TARGETED_DEVICE_FAMILY: "1,2"
 
   JoyPadServer:
@@ -62,13 +65,16 @@ targets:
     sources:
       - path: Sources/JoyPadServer
       - path: Sources/JoyPadProtocol
+    info:
+      path: JoyPadServer-Xcode-Info.plist
+      properties:
+        CFBundleDisplayName: JoyPad Companion
+        LSUIElement: false
+        NSLocalNetworkUsageDescription: "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL)."
+        NSBonjourServices:
+          - "_joypad._udp"
+          - "_joypad._tcp"
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.danielzaleta.joypad.server
         PRODUCT_NAME: JoyPadServer
-        INFOPLIST_KEY_CFBundleDisplayName: JoyPad Companion
-        INFOPLIST_KEY_LSUIElement: YES
-        INFOPLIST_KEY_NSLocalNetworkUsageDescription: "JoyPad necesita acceso a la red local Peer-to-Peer (AWDL)."
-        INFOPLIST_KEY_NSBonjourServices:
-          - "_joypad._udp"
-          - "_joypad._tcp"
