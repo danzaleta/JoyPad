@@ -151,50 +151,73 @@ public final class JoyPadServerEngine: ObservableObject {
         }
     }
 
+    private var internalPacketCount: UInt64 = 0
+    private var lastUIUpdateTimestamp: TimeInterval = 0
+
     private func processIncomingData(_ data: Data, from connection: NWConnection) {
         guard let frame = try? JoyPadCodec.decode(data) else { return }
-        packetsReceived &+= 1
+        internalPacketCount &+= 1
         if connectedPeerName == nil {
             connectedPeerName = "\(connection.endpoint)"
         }
 
+        let now = ProcessInfo.processInfo.systemUptime
+        let shouldUpdateUI = (now - lastUIUpdateTimestamp) >= 0.20
+
         switch frame.payload {
         case .trackpadMotion(let motion):
-            if motion.scrollDeltaY != 0 || motion.scrollDeltaX != 0 {
-                lastEventSummary = "Scroll (dX: \(motion.scrollDeltaX), dY: \(motion.scrollDeltaY))"
-            } else {
-                lastEventSummary = String(format: "Cursor Δ (%.1f, %.1f)", motion.deltaX, motion.deltaY)
-            }
+            // Inject immediately before any UI work
             trackpadEngine.handleMotion(motion)
+            if shouldUpdateUI {
+                lastUIUpdateTimestamp = now
+                packetsReceived = internalPacketCount
+                if motion.scrollDeltaY != 0 || motion.scrollDeltaX != 0 {
+                    lastEventSummary = "Scroll (dX: \(motion.scrollDeltaX), dY: \(motion.scrollDeltaY))"
+                } else {
+                    lastEventSummary = String(format: "Cursor Δ (%.1f, %.1f)", motion.deltaX, motion.deltaY)
+                }
+            }
 
         case .trackpadGesture(let gesture):
+            trackpadEngine.handleGesture(gesture)
+            packetsReceived = internalPacketCount
             if gesture.systemGesture != .none {
                 lastEventSummary = "Gesto macOS: \(gesture.systemGesture)"
             } else {
                 let btn = gesture.buttonMask.contains(.right) ? "Derecho" : "Izquierdo"
                 lastEventSummary = "Clic \(btn) (\(gesture.action))"
             }
-            trackpadEngine.handleGesture(gesture)
 
         case .keyboardKey(let key):
-            lastEventSummary = "Tecla keyCode=\(key.keyCode) down=\(key.isKeyDown)"
             keyboardEngine.handleKey(key)
+            packetsReceived = internalPacketCount
+            lastEventSummary = "Tecla keyCode=\(key.keyCode) down=\(key.isKeyDown)"
 
         case .unicodeText(let text):
-            lastEventSummary = "Texto recibido: \"\(text)\""
             keyboardEngine.handleUnicodeText(text)
+            packetsReceived = internalPacketCount
+            lastEventSummary = "Texto recibido: \"\(text)\""
 
         case .systemMedia(let media):
-            lastEventSummary = "Acción Multimedia: \(media.action)"
             keyboardEngine.handleMedia(media)
+            packetsReceived = internalPacketCount
+            lastEventSummary = "Acción Multimedia: \(media.action)"
 
         case .gamepadState(let state):
-            lastEventSummary = "Gamepad Buttons=\(state.buttons.rawValue) LX=\(state.leftStickX) LY=\(state.leftStickY)"
             gamepadEngine.handleGamepadState(state)
+            if shouldUpdateUI {
+                lastUIUpdateTimestamp = now
+                packetsReceived = internalPacketCount
+                lastEventSummary = "Gamepad Buttons=\(state.buttons.rawValue) LX=\(state.leftStickX) LY=\(state.leftStickY)"
+            }
 
         case .gyroMotion(let gyro):
-            lastEventSummary = "Gyro (Y:\(gyro.yawScaled) P:\(gyro.pitchScaled))"
             gamepadEngine.handleGyro(gyro)
+            if shouldUpdateUI {
+                lastUIUpdateTimestamp = now
+                packetsReceived = internalPacketCount
+                lastEventSummary = "Gyro (Y:\(gyro.yawScaled) P:\(gyro.pitchScaled))"
+            }
 
         case .controlSync(let sync):
             handleControlSync(sync, from: connection)

@@ -6,13 +6,14 @@ import JoyPadProtocol
 @MainActor
 public final class PadSessionClient: ObservableObject {
     @Published public private(set) var isConnected: Bool = false
-    @Published public private(set) var statusMessage: String = "Buscando Mac (Bonjour / P2P)..."
+    @Published public private(set) var statusMessage: String = "Buscando Mac..."
     @Published public var manualHostIP: String = UserDefaults.standard.string(forKey: "joypad.hostIP") ?? "192.168.68.109" {
         didSet { UserDefaults.standard.set(manualHostIP, forKey: "joypad.hostIP") }
     }
     @Published public var activeMode: PadMode = .trackpad
+    @Published public var isSettingsPresented: Bool = false
     @Published public var dictationText: String = ""
-    @Published public var trackpadSensitivity: Double = 1.6
+    @Published public var trackpadSensitivity: Double = 1.65
     @Published public var cameraSensitivity: Double = 2.2
     @Published public var isDragLockEnabled: Bool = false
     @Published public var isGyroEnabled: Bool = false {
@@ -21,7 +22,7 @@ public final class PadSessionClient: ObservableObject {
     @Published public private(set) var rttMilliseconds: UInt32 = 0
     @Published public private(set) var packetsSent: UInt64 = 0
 
-    /// Aggregated state for concurrent Dual Sticks + Triggers + Buttons
+    /// Aggregated state for concurrent Dual Sticks + Triggers + Holdable Buttons
     public var currentGamepadState = GamepadStatePayload()
     private let gyroManager = MotionGyroManager()
 
@@ -40,19 +41,6 @@ public final class PadSessionClient: ObservableObject {
             domain: nil
         )
         let newBrowser = NWBrowser(for: descriptor, using: params)
-
-        newBrowser.stateUpdateHandler = { [weak self] state in
-            Task { @MainActor in
-                switch state {
-                case .failed(let error):
-                    self?.statusMessage = "Bonjour error: \(error.localizedDescription)"
-                case .waiting(let error):
-                    self?.statusMessage = "Permiso Red Local pendiente: \(error.localizedDescription)"
-                default:
-                    break
-                }
-            }
-        }
 
         newBrowser.browseResultsChangedHandler = { [weak self] results, _ in
             guard let first = results.first else { return }
@@ -74,7 +62,7 @@ public final class PadSessionClient: ObservableObject {
         guard !targetIP.isEmpty else { return }
         let host = NWEndpoint.Host(targetIP)
         let port = NWEndpoint.Port(rawValue: JoyPadNetworkConfig.defaultPort)!
-        connect(to: .hostPort(host: host, port: port), label: "\(targetIP):\(JoyPadNetworkConfig.defaultPort)")
+        connect(to: .hostPort(host: host, port: port), label: targetIP)
     }
 
     public func connect(to endpoint: NWEndpoint, label: String) {
@@ -91,7 +79,7 @@ public final class PadSessionClient: ObservableObject {
                 switch state {
                 case .ready:
                     self.isConnected = true
-                    self.statusMessage = "Conectado a \(label)"
+                    self.statusMessage = label
                     self.sendPing()
                     self.startHeartbeat()
                 case .failed(let err):
@@ -130,27 +118,30 @@ public final class PadSessionClient: ObservableObject {
         send(.gamepadState(currentGamepadState))
     }
 
-    public func pulseGamepadButton(_ button: GamepadButtons) {
-        currentGamepadState.buttons.insert(button)
-        send(.gamepadState(currentGamepadState))
-        Task { @MainActor [weak self] in
-            try? await Task.sleep(nanoseconds: 65_000_000)
-            guard let self else { return }
-            self.currentGamepadState.buttons.remove(button)
-            self.send(.gamepadState(self.currentGamepadState))
+    /// Sets a gamepad button as held down or released (supports holding to walk, jump, crouch, etc.).
+    public func setGamepadButton(_ button: GamepadButtons, isPressed: Bool) {
+        if isPressed {
+            guard !currentGamepadState.buttons.contains(button) else { return }
+            currentGamepadState.buttons.insert(button)
+        } else {
+            guard currentGamepadState.buttons.contains(button) else { return }
+            currentGamepadState.buttons.remove(button)
         }
+        send(.gamepadState(currentGamepadState))
     }
 
-    public func pulseTriggers(l2: UInt8 = 0, r2: UInt8 = 0) {
-        currentGamepadState.triggerL2 = l2
-        currentGamepadState.triggerR2 = r2
+    /// Sets analog triggers L2 / R2 as held down or released.
+    public func setTriggers(l2: UInt8? = nil, r2: UInt8? = nil) {
+        if let l2 { currentGamepadState.triggerL2 = l2 }
+        if let r2 { currentGamepadState.triggerR2 = r2 }
         send(.gamepadState(currentGamepadState))
+    }
+
+    public func pulseGamepadButton(_ button: GamepadButtons) {
+        setGamepadButton(button, isPressed: true)
         Task { @MainActor [weak self] in
-            try? await Task.sleep(nanoseconds: 80_000_000)
-            guard let self else { return }
-            self.currentGamepadState.triggerL2 = 0
-            self.currentGamepadState.triggerR2 = 0
-            self.send(.gamepadState(self.currentGamepadState))
+            try? await Task.sleep(nanoseconds: 65_000_000)
+            self?.setGamepadButton(button, isPressed: false)
         }
     }
 

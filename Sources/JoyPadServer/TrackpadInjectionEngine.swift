@@ -8,46 +8,51 @@ import JoyPadProtocol
 @MainActor
 public final class TrackpadInjectionEngine {
     public var sensitivity: Double = 1.35
-    private var subPixelRemainderX: Double = 0.0
-    private var subPixelRemainderY: Double = 0.0
+
+    /// Continuous floating-point cursor position to prevent `NSEvent.mouseLocation` stale-read stutter at 120Hz.
+    private var virtualCursorLocation: CGPoint? = nil
+    private var lastMotionTimestamp: TimeInterval = 0
     private var isDragLocked: Bool = false
 
     public init() {}
 
-    /// Applies a macOS-like ballistic acceleration curve and injects cursor delta + 2-finger scroll.
+    /// Applies a smooth ballistic curve and injects sub-pixel cursor movement, 2-finger scroll, and pinch zoom.
     public func handleMotion(_ motion: TrackpadMotionPayload) {
-        // 1. Cursor Movement
+        let now = ProcessInfo.processInfo.systemUptime
+
+        // 1. Sub-pixel Cursor Movement (Zero-Stutter Floating-Point Accumulator)
         if motion.deltaXScaled != 0 || motion.deltaYScaled != 0 {
             let rawDX = motion.deltaX
             let rawDY = motion.deltaY
             let speed = hypot(rawDX, rawDY)
-            let accelMultiplier = sensitivity * (1.0 + min(speed * 0.08, 2.2))
+            let accelMultiplier = sensitivity * (1.0 + min(speed * 0.045, 1.8))
 
-            let totalDX = rawDX * accelMultiplier + subPixelRemainderX
-            let totalDY = rawDY * accelMultiplier + subPixelRemainderY
+            let dx = rawDX * accelMultiplier
+            let dy = rawDY * accelMultiplier
 
-            let moveX = totalDX.rounded(.towardZero)
-            let moveY = totalDY.rounded(.towardZero)
-            subPixelRemainderX = totalDX - moveX
-            subPixelRemainderY = totalDY - moveY
+            // Resync with physical cursor only if idle for > 120ms
+            if virtualCursorLocation == nil || (now - lastMotionTimestamp) > 0.12 {
+                virtualCursorLocation = currentQuartzCursorLocation()
+            }
+            lastMotionTimestamp = now
 
-            let currentPos = NSEvent.mouseLocation
-            // Convert AppKit bottom-left origin to Quartz top-left screen coordinates
-            let primaryHeight = NSScreen.screens.first?.frame.height ?? 1080.0
-            let quartzX = currentPos.x + moveX
-            let quartzY = (primaryHeight - currentPos.y) + moveY
-            let newPoint = CGPoint(x: quartzX, y: quartzY)
+            if var pos = virtualCursorLocation {
+                let bounds = combinedScreenBounds()
+                pos.x = min(max(pos.x + dx, bounds.minX), bounds.maxX - 1)
+                pos.y = min(max(pos.y + dy, bounds.minY), bounds.maxY - 1)
+                virtualCursorLocation = pos
 
-            let eventType: CGEventType = isDragLocked ? .leftMouseDragged : .mouseMoved
-            if let event = CGEvent(
-                mouseEventSource: nil,
-                mouseType: eventType,
-                mouseCursorPosition: newPoint,
-                mouseButton: .left
-            ) {
-                event.setIntegerValueField(.mouseEventDeltaX, value: Int64(moveX))
-                event.setIntegerValueField(.mouseEventDeltaY, value: Int64(moveY))
-                event.post(tap: .cghidEventTap)
+                let eventType: CGEventType = isDragLocked ? .leftMouseDragged : .mouseMoved
+                if let event = CGEvent(
+                    mouseEventSource: nil,
+                    mouseType: eventType,
+                    mouseCursorPosition: pos,
+                    mouseButton: .left
+                ) {
+                    event.setDoubleValueField(.mouseEventDeltaX, value: dx)
+                    event.setDoubleValueField(.mouseEventDeltaY, value: dy)
+                    event.post(tap: .cghidEventTap)
+                }
             }
         }
 
@@ -64,22 +69,34 @@ public final class TrackpadInjectionEngine {
                 scrollEvent.post(tap: .cghidEventTap)
             }
         }
+
+        // 3. Two-Finger Pinch Zoom (Cmd + Plus / Cmd + Minus)
+        if motion.pinchScaleDelta != 0 {
+            let zoomKeyCode: CGKeyCode = motion.pinchScaleDelta > 0 ? 24 : 27 // 24 = '+', 27 = '-'
+            if let down = CGEvent(keyboardEventSource: nil, virtualKey: zoomKeyCode, keyDown: true),
+               let up = CGEvent(keyboardEventSource: nil, virtualKey: zoomKeyCode, keyDown: false) {
+                down.flags = .maskCommand
+                up.flags = .maskCommand
+                down.post(tap: .cghidEventTap)
+                up.post(tap: .cghidEventTap)
+            }
+        }
     }
 
-    /// Injects discrete trackpad clicks, drag-lock, and 3-finger macOS system gestures.
+    /// Injects discrete trackpad clicks, drag-lock, and 3/4-finger macOS system gestures.
     public func handleGesture(_ gesture: TrackpadGesturePayload) {
         if gesture.systemGesture != .none {
             triggerSystemGesture(gesture.systemGesture)
             return
         }
 
-        let currentPos = currentQuartzCursorLocation()
+        let currentPos = virtualCursorLocation ?? currentQuartzCursorLocation()
         let isRight = gesture.buttonMask.contains(.right)
         let mouseButton: CGMouseButton = isRight ? .right : .left
         let downType: CGEventType = isRight ? .rightMouseDown : .leftMouseDown
         let upType: CGEventType = isRight ? .rightMouseUp : .leftMouseUp
 
-        isDragLocked = gesture.buttonMask.contains(.dragLock)
+        isDragLocked = gesture.buttonMask.contains(.dragLock) && gesture.action == .press
 
         switch gesture.action {
         case .press:
@@ -114,7 +131,6 @@ public final class TrackpadInjectionEngine {
     }
 
     private func triggerSystemGesture(_ gesture: SystemGesture) {
-        // Standard macOS symbolic shortcuts: Ctrl + Arrow keys for Mission Control / Spaces
         let keyCode: CGKeyCode
         switch gesture {
         case .none: return
@@ -136,9 +152,20 @@ public final class TrackpadInjectionEngine {
     }
 
     private func currentQuartzCursorLocation() -> CGPoint {
+        if let cgLoc = CGEvent(source: nil)?.location {
+            return cgLoc
+        }
         let pos = NSEvent.mouseLocation
         let primaryHeight = NSScreen.screens.first?.frame.height ?? 1080.0
         return CGPoint(x: pos.x, y: primaryHeight - pos.y)
+    }
+
+    private func combinedScreenBounds() -> CGRect {
+        let screens = NSScreen.screens
+        guard let first = screens.first else {
+            return CGRect(x: 0, y: 0, width: 1920, height: 1080)
+        }
+        return screens.dropFirst().reduce(first.frame) { $0.union($1.frame) }
     }
 }
 #endif

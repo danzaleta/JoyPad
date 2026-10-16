@@ -70,11 +70,11 @@ public final class GamepadInjectionEngine {
     public func handleGyro(_ gyro: GyroMotionPayload) {
         let yaw = Double(gyro.yawScaled) / 1000.0
         let pitch = Double(gyro.pitchScaled) / 1000.0
-        guard abs(yaw) > 0.015 || abs(pitch) > 0.015 else { return }
+        guard abs(yaw) > 0.004 || abs(pitch) > 0.004 else { return }
 
         let motion = TrackpadMotionPayload(
-            deltaX: -yaw * 8.0,
-            deltaY: -pitch * 8.0
+            deltaX: yaw * 18.0,
+            deltaY: pitch * 18.0
         )
         trackpadEngine.handleMotion(motion)
     }

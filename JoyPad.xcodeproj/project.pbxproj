@@ -11,6 +11,7 @@
 		31C8594A1888D225EEF662B3 /* PadSessionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E840503A8080FF0A2A7BDDE /* PadSessionClient.swift */; };
 		366044C215EF893B331E1C89 /* MotionGyroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4C584EC70C253A1C7256C4 /* MotionGyroManager.swift */; };
 		39E0055E3B23F47B7718F758 /* UniversalPadMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EC62442575D965F7F3B484 /* UniversalPadMainView.swift */; };
+		3BFDE7A53BA6A2D13E844605 /* NativeMultitouchTrackpadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F62D7B9F1FF1F02A6D0002D /* NativeMultitouchTrackpadView.swift */; };
 		3D4B0B8ABAE45964863BC214 /* PacketTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4991217CE353ED89C78E2A3A /* PacketTypes.swift */; };
 		68C178A5D468ADF83047021E /* VirtualThumbstickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63CC71A8EC7B3BFD68EFEAA /* VirtualThumbstickView.swift */; };
 		6A6CFCC52C90884EDFFCAEDE /* Payloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CA0FED5D18303E27A0DD14 /* Payloads.swift */; };
@@ -84,6 +85,7 @@
 		79536E04F10D16992CC46108 /* JoyPadServerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyPadServerApp.swift; sourceTree = "<group>"; };
 		7E1BA27AEC0B6722FBC6AE88 /* JoyPadServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JoyPadServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E6DC2671F45799CAD541B1F /* JoyPadClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoyPadClientApp.swift; sourceTree = "<group>"; };
+		8F62D7B9F1FF1F02A6D0002D /* NativeMultitouchTrackpadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeMultitouchTrackpadView.swift; sourceTree = "<group>"; };
 		90BBF1E7601C6ECB51E6246C /* KeyboardInjectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardInjectionEngine.swift; sourceTree = "<group>"; };
 		9A95D8676D8ACC82FC9311D8 /* NetworkConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfig.swift; sourceTree = "<group>"; };
 		A7EC62442575D965F7F3B484 /* UniversalPadMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalPadMainView.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				BE4C584EC70C253A1C7256C4 /* MotionGyroManager.swift */,
+				8F62D7B9F1FF1F02A6D0002D /* NativeMultitouchTrackpadView.swift */,
 				6E840503A8080FF0A2A7BDDE /* PadSessionClient.swift */,
 				B6CFFCAD5EF44A238964F83B /* TapticEngineManager.swift */,
 				A7EC62442575D965F7F3B484 /* UniversalPadMainView.swift */,
@@ -351,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				366044C215EF893B331E1C89 /* MotionGyroManager.swift in Sources */,
+				3BFDE7A53BA6A2D13E844605 /* NativeMultitouchTrackpadView.swift in Sources */,
 				31C8594A1888D225EEF662B3 /* PadSessionClient.swift in Sources */,
 				C361224C1D16A5A21A99D137 /* TapticEngineManager.swift in Sources */,
 				39E0055E3B23F47B7718F758 /* UniversalPadMainView.swift in Sources */,
