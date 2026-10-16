@@ -1,7 +1,7 @@
 import SwiftUI
 import JoyPadProtocol
 
-/// Tracks frame-to-frame touch deltas without using @State macros.
+/// Tracks frame-to-frame touch deltas without using @State macro plugins.
 @MainActor
 final class TouchDeltaTracker: ObservableObject {
     var lastCursorLocation: CGPoint? = nil
@@ -13,6 +13,7 @@ final class TouchDeltaTracker: ObservableObject {
 public struct UniversalPadMainView: View {
     @ObservedObject private var session: PadSessionClient
     @StateObject private var tracker = TouchDeltaTracker()
+    @Environment(\.scenePhase) private var scenePhase
     private let haptics = TapticEngineManager()
 
     public init(session: PadSessionClient) {
@@ -20,20 +21,25 @@ public struct UniversalPadMainView: View {
     }
 
     public var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             headerBar
             connectionBar
             modeSelectorBar
             Divider()
             activeModeContent
         }
-        .padding(12)
-        .background(Color.black.opacity(0.94))
+        .padding(10)
+        .background(Color.black.opacity(0.95))
         .foregroundStyle(.white)
         .onAppear {
-            // Connect immediately to the Mac's local IP and start Bonjour discovery
             session.connectToDirectIP()
             session.startDiscovery()
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                session.connectToDirectIP()
+                session.startDiscovery()
+            }
         }
     }
 
@@ -61,20 +67,18 @@ public struct UniversalPadMainView: View {
                 .textFieldStyle(.roundedBorder)
                 .font(.caption.monospaced())
                 .foregroundStyle(.black)
-                .frame(maxWidth: 150)
-            Button("Conectar IP") {
+                .frame(maxWidth: 145)
+            Button("Conectar") {
                 haptics.playTrackpadClick()
                 session.connectToDirectIP()
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.small)
 
-            Button("Ping") {
-                haptics.playTrackpadClick()
-                session.sendPing()
-            }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
+            Toggle("Giroscopio", isOn: $session.isGyroEnabled)
+                .toggleStyle(.button)
+                .controlSize(.small)
+                .tint(.purple)
         }
     }
 
@@ -116,10 +120,10 @@ public struct UniversalPadMainView: View {
         }
     }
 
-    // MARK: - 1. Magic Trackpad Mode (Incremental Delta + Dedicated Scroll Strip)
+    // MARK: - 1. Magic Trackpad Mode
 
     private var trackpadSurfaceView: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 8) {
             HStack(spacing: 8) {
                 // Main 1-Finger Cursor & Tap Surface
                 RoundedRectangle(cornerRadius: 18)
@@ -129,7 +133,7 @@ public struct UniversalPadMainView: View {
                             Image(systemName: "hand.point.up.left.fill")
                                 .font(.title2)
                                 .foregroundStyle(.white.opacity(0.35))
-                            Text("Superficie Magic Trackpad\nDesliza para mover el cursor • Toca para Clic Izquierdo")
+                            Text("Superficie Magic Trackpad\nDesliza para mover cursor • Toca para Clic Izq")
                                 .font(.caption)
                                 .multilineTextAlignment(.center)
                                 .foregroundStyle(.secondary)
@@ -139,8 +143,8 @@ public struct UniversalPadMainView: View {
                         DragGesture(minimumDistance: 0)
                             .onChanged { value in
                                 if let last = tracker.lastCursorLocation {
-                                    let dx = Double(value.location.x - last.x) * 1.6
-                                    let dy = Double(value.location.y - last.y) * 1.6
+                                    let dx = Double(value.location.x - last.x) * session.trackpadSensitivity
+                                    let dy = Double(value.location.y - last.y) * session.trackpadSensitivity
                                     if abs(dx) > 0.01 || abs(dy) > 0.01 {
                                         session.send(.trackpadMotion(TrackpadMotionPayload(deltaX: dx, deltaY: dy)))
                                     }
@@ -150,17 +154,17 @@ public struct UniversalPadMainView: View {
                             .onEnded { value in
                                 let totalMove = hypot(value.translation.width, value.translation.height)
                                 tracker.lastCursorLocation = nil
-                                // Treat a short tap (< 6pt movement) as a Left Click!
                                 if totalMove < 6.0 {
                                     haptics.playTrackpadClick()
+                                    let mask: MouseButtonMask = session.isDragLockEnabled ? [.left, .dragLock] : .left
                                     session.send(
-                                        .trackpadGesture(TrackpadGesturePayload(buttonMask: .left, action: .tapClick))
+                                        .trackpadGesture(TrackpadGesturePayload(buttonMask: mask, action: .tapClick))
                                     )
                                 }
                             }
                     )
 
-                // Dedicated Smooth Scroll Strip on the right edge
+                // Dedicated Smooth Scroll Strip
                 RoundedRectangle(cornerRadius: 14)
                     .fill(Color.blue.opacity(0.18))
                     .frame(width: 54)
@@ -170,7 +174,7 @@ public struct UniversalPadMainView: View {
                             Text("Scroll")
                                 .font(.caption2.bold())
                         }
-                        .foregroundStyle(.white.opacity(0.7))
+                        .foregroundStyle(.white.opacity(0.75))
                     )
                     .gesture(
                         DragGesture(minimumDistance: 0)
@@ -201,23 +205,52 @@ public struct UniversalPadMainView: View {
                     )
             }
 
-            // Bottom Physical Click & Gesture Bar
+            // Sensitivity & Drag-Lock Bar
             HStack(spacing: 8) {
-                Button("Clic Izq") {
-                    haptics.playTrackpadClick()
-                    session.send(.trackpadGesture(TrackpadGesturePayload(buttonMask: .left, action: .tapClick)))
-                }
-                .buttonStyle(.borderedProminent)
+                Text("Sensibilidad:")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                Slider(value: $session.trackpadSensitivity, in: 0.6...3.5)
+                Toggle("Arrastrar Fijo", isOn: $session.isDragLockEnabled)
+                    .toggleStyle(.button)
+                    .controlSize(.small)
+                    .onChange(of: session.isDragLockEnabled) { _, locked in
+                        haptics.playTrackpadClick()
+                        let mask: MouseButtonMask = locked ? [.left, .dragLock] : [.left]
+                        let action: ClickAction = locked ? .press : .release
+                        session.send(.trackpadGesture(TrackpadGesturePayload(buttonMask: mask, action: action)))
+                    }
+            }
 
-                Button("Clic Der") {
-                    haptics.playTrackpadClick()
-                    session.send(.trackpadGesture(TrackpadGesturePayload(buttonMask: .right, action: .tapClick)))
-                }
-                .buttonStyle(.borderedProminent)
+            // Bottom Click & macOS System Gestures Bar
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    Button("Clic Izq") {
+                        haptics.playTrackpadClick()
+                        session.send(.trackpadGesture(TrackpadGesturePayload(buttonMask: .left, action: .tapClick)))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
 
-                systemGestureButton("Mission Ctrl", gesture: .missionControl)
-                systemGestureButton(" ◀ Space", gesture: .spaceLeft)
-                systemGestureButton("Space ▶", gesture: .spaceRight)
+                    Button("Doble Clic") {
+                        haptics.playTrackpadClick()
+                        session.send(.trackpadGesture(TrackpadGesturePayload(buttonMask: .left, action: .doubleClick)))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+
+                    Button("Clic Der") {
+                        haptics.playTrackpadClick()
+                        session.send(.trackpadGesture(TrackpadGesturePayload(buttonMask: .right, action: .tapClick)))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+
+                    systemGestureButton("Mission Ctrl", gesture: .missionControl)
+                    systemGestureButton("Exposé", gesture: .appExpose)
+                    systemGestureButton("◀ Space", gesture: .spaceLeft)
+                    systemGestureButton("Space ▶", gesture: .spaceRight)
+                }
             }
         }
     }
@@ -225,7 +258,7 @@ public struct UniversalPadMainView: View {
     // MARK: - 2. Keyboard, Dictation & Media Mode
 
     private var keyboardAndMacrosView: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             HStack {
                 TextField("Escribe o usa Dictado por Voz de iOS...", text: $session.dictationText)
                     .textFieldStyle(.roundedBorder)
@@ -244,13 +277,14 @@ public struct UniversalPadMainView: View {
                 .buttonStyle(.borderedProminent)
             }
 
-            // Tactical Modifier & Function Strip
+            // Tactical Modifier & Shortcut Strip
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
-                    tacticalKeyButton("Enter", keyCode: 36)
+                    tacticalKeyButton("Enter ⏎", keyCode: 36)
                     tacticalKeyButton("Borrar ⌫", keyCode: 51)
+                    tacticalKeyButton("Espacio", keyCode: 49)
                     tacticalKeyButton("Esc", keyCode: 53)
-                    tacticalKeyButton("Tab", keyCode: 48)
+                    tacticalKeyButton("Tab ⇥", keyCode: 48)
                     tacticalKeyButton("Cmd+C", keyCode: 8, modifiers: [.command])
                     tacticalKeyButton("Cmd+V", keyCode: 9, modifiers: [.command])
                     tacticalKeyButton("Cmd+Z", keyCode: 6, modifiers: [.command])
@@ -258,12 +292,23 @@ public struct UniversalPadMainView: View {
                 }
             }
 
+            // Arrow Keys & Window Navigation
+            HStack(spacing: 10) {
+                tacticalKeyButton("◀ Izq", keyCode: 123)
+                tacticalKeyButton("▲ Arriba", keyCode: 126)
+                tacticalKeyButton("▼ Abajo", keyCode: 125)
+                tacticalKeyButton("▶ Der", keyCode: 124)
+            }
+
             // Media & System Deck
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     mediaButton("🔉 Vol -", action: .volumeDown)
-                    mediaButton("⏯ Play", action: .playPause)
+                    mediaButton("🔇 Mute", action: .mute)
                     mediaButton("🔊 Vol +", action: .volumeUp)
+                    mediaButton("⏮ Ant", action: .previousTrack)
+                    mediaButton("⏯ Play", action: .playPause)
+                    mediaButton("⏭ Sig", action: .nextTrack)
                     mediaButton("🔅 Brillo -", action: .brightnessDown)
                     mediaButton("🔆 Brillo +", action: .brightnessUp)
                     mediaButton("📸 Captura", action: .screenshot)
@@ -273,86 +318,130 @@ public struct UniversalPadMainView: View {
         }
     }
 
-    // MARK: - 3. Native Gamepad Mode
+    // MARK: - 3. Native Gamepad Mode (Dual Virtual Thumbsticks + Triggers + ABXY)
 
     private var gamepadSurfaceView: some View {
-        HStack(spacing: 16) {
-            VStack(spacing: 10) {
-                Text("D-Pad / Movimiento")
-                    .font(.caption.bold())
-                gamepadButton("▲ Arriba (W)", button: .dpadUp)
-                HStack(spacing: 12) {
-                    gamepadButton("◀ Izq (A)", button: .dpadLeft)
-                    gamepadButton("▶ Der (D)", button: .dpadRight)
-                }
-                gamepadButton("▼ Abajo (S)", button: .dpadDown)
+        VStack(spacing: 10) {
+            // Top Shoulder & Analog Triggers Bar (L1/L2 & R1/R2)
+            HStack {
+                gamepadButton("L2 (Apuntar)", button: .shoulderL1)
+                gamepadButton("L1", button: .shoulderL1)
+                Spacer()
+                gamepadButton("Select", button: .select)
+                gamepadButton("Start / Esc", button: .start)
+                Spacer()
+                gamepadButton("R1", button: .shoulderR1)
+                gamepadButton("R2 (Atacar)", button: .shoulderR1)
             }
-            .frame(maxWidth: .infinity)
 
-            VStack(spacing: 10) {
-                Text("Acciones ABXY")
-                    .font(.caption.bold())
-                gamepadButton("Y (Recargar)", button: .northY)
-                HStack(spacing: 12) {
-                    gamepadButton("X (Usar/E)", button: .westX)
-                    gamepadButton("B (Shift)", button: .eastB)
+            HStack(spacing: 16) {
+                // Left Analog Thumbstick (WASD / Movement)
+                VirtualThumbstickView(label: "Stick Izq (WASD)", radius: 52) { x, y in
+                    session.updateLeftStick(x: x, y: y)
                 }
-                gamepadButton("A (Saltar)", button: .southA)
+
+                // Center D-Pad
+                VStack(spacing: 6) {
+                    gamepadButton("▲", button: .dpadUp)
+                    HStack(spacing: 8) {
+                        gamepadButton("◀", button: .dpadLeft)
+                        gamepadButton("▶", button: .dpadRight)
+                    }
+                    gamepadButton("▼", button: .dpadDown)
+                }
+
+                // Right ABXY Cluster
+                VStack(spacing: 6) {
+                    gamepadButton("Y (R)", button: .northY)
+                    HStack(spacing: 8) {
+                        gamepadButton("X (E)", button: .westX)
+                        gamepadButton("B (Shift)", button: .eastB)
+                    }
+                    gamepadButton("A (Salto)", button: .southA)
+                }
+
+                // Right Analog Thumbstick (Camera Look)
+                VirtualThumbstickView(label: "Stick Der (Cámara)", radius: 52) { x, y in
+                    session.updateRightStick(x: x, y: y)
+                }
             }
-            .frame(maxWidth: .infinity)
         }
-        .padding()
+        .padding(.vertical, 4)
     }
 
-    // MARK: - 4. Hybrid "Steam Deck" Mode
+    // MARK: - 4. Hybrid "Steam Deck" Mode (Left Stick WASD + Right Trackpad Camera + Gyro)
 
     private var hybridSteamDeckView: some View {
-        HStack(spacing: 12) {
-            VStack(spacing: 10) {
-                Text("WASD + Acciones")
-                    .font(.caption.bold())
-                HStack {
-                    gamepadButton("Saltar", button: .southA)
-                    gamepadButton("Shift", button: .eastB)
+        VStack(spacing: 8) {
+            // Top Triggers & Combat Actions
+            HStack(spacing: 8) {
+                Button("L2 Clic Der (Usar/Apuntar)") {
+                    haptics.playTrackpadClick()
+                    session.pulseTriggers(l2: 255)
                 }
-                HStack {
-                    gamepadButton("Inv (E)", button: .westX)
-                    gamepadButton("Esc", button: .start)
-                }
-            }
-            .padding(8)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white.opacity(0.06))
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+                .controlSize(.small)
 
-            RoundedRectangle(cornerRadius: 14)
-                .fill(Color.blue.opacity(0.16))
-                .overlay(
-                    Text("Trackpad de Cámara\n(Desliza para mirar • Toca para atacar)")
-                        .font(.caption.bold())
-                        .multilineTextAlignment(.center)
-                )
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            if let last = tracker.lastCameraLocation {
-                                let dx = Double(value.location.x - last.x) * 2.0
-                                let dy = Double(value.location.y - last.y) * 2.0
-                                session.send(.trackpadMotion(TrackpadMotionPayload(deltaX: dx, deltaY: dy)))
-                            }
-                            tracker.lastCameraLocation = value.location
+                gamepadButton("Saltar (Espacio)", button: .southA)
+                gamepadButton("Shift", button: .eastB)
+                gamepadButton("Inv (E)", button: .westX)
+                gamepadButton("Esc", button: .start)
+
+                Button("R2 Clic Izq (Atacar/Minar)") {
+                    haptics.playTrackpadClick()
+                    session.pulseTriggers(r2: 255)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+                .controlSize(.small)
+            }
+
+            HStack(spacing: 12) {
+                // Left Virtual Analog Stick for 360->WASD movement
+                VirtualThumbstickView(label: "Stick Movimiento (WASD)", radius: 58) { x, y in
+                    session.updateLeftStick(x: x, y: y)
+                }
+                .padding(8)
+                .background(Color.white.opacity(0.05))
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+
+                // Right High-Precision Camera Trackpad
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.blue.opacity(0.16))
+                    .overlay(
+                        VStack(spacing: 4) {
+                            Image(systemName: "scope")
+                                .font(.title2)
+                                .foregroundStyle(.blue)
+                            Text("Trackpad de Cámara (Alta Precisión)\nDesliza para mirar • Toca para atacar (Clic Izq)")
+                                .font(.caption)
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(.secondary)
                         }
-                        .onEnded { value in
-                            let totalMove = hypot(value.translation.width, value.translation.height)
-                            tracker.lastCameraLocation = nil
-                            if totalMove < 6.0 {
-                                haptics.playTrackpadClick()
-                                session.send(
-                                    .trackpadGesture(TrackpadGesturePayload(buttonMask: .left, action: .tapClick))
-                                )
+                    )
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                if let last = tracker.lastCameraLocation {
+                                    let dx = Double(value.location.x - last.x) * session.cameraSensitivity
+                                    let dy = Double(value.location.y - last.y) * session.cameraSensitivity
+                                    session.send(.trackpadMotion(TrackpadMotionPayload(deltaX: dx, deltaY: dy)))
+                                }
+                                tracker.lastCameraLocation = value.location
                             }
-                        }
-                )
+                            .onEnded { value in
+                                let totalMove = hypot(value.translation.width, value.translation.height)
+                                tracker.lastCameraLocation = nil
+                                if totalMove < 6.0 {
+                                    haptics.playTrackpadClick()
+                                    session.send(
+                                        .trackpadGesture(TrackpadGesturePayload(buttonMask: .left, action: .tapClick))
+                                    )
+                                }
+                            }
+                    )
+            }
         }
     }
 
@@ -374,6 +463,7 @@ public struct UniversalPadMainView: View {
             session.send(.keyboardKey(KeyboardKeyPayload(keyCode: keyCode, modifiers: modifiers, isKeyDown: false)))
         }
         .buttonStyle(.bordered)
+        .controlSize(.small)
     }
 
     private func mediaButton(_ title: String, action: MediaAction) -> some View {
@@ -382,14 +472,15 @@ public struct UniversalPadMainView: View {
             session.send(.systemMedia(SystemMediaPayload(action: action)))
         }
         .buttonStyle(.bordered)
+        .controlSize(.small)
     }
 
     private func gamepadButton(_ title: String, button: GamepadButtons) -> some View {
         Button(title) {
             haptics.playTrackpadClick()
-            session.send(.gamepadState(GamepadStatePayload(buttons: button)))
-            session.send(.gamepadState(GamepadStatePayload(buttons: [])))
+            session.pulseGamepadButton(button)
         }
         .buttonStyle(.borderedProminent)
+        .controlSize(.small)
     }
 }

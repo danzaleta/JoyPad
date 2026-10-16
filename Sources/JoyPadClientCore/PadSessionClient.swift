@@ -7,11 +7,23 @@ import JoyPadProtocol
 public final class PadSessionClient: ObservableObject {
     @Published public private(set) var isConnected: Bool = false
     @Published public private(set) var statusMessage: String = "Buscando Mac (Bonjour / P2P)..."
-    @Published public var manualHostIP: String = "192.168.68.109"
+    @Published public var manualHostIP: String = UserDefaults.standard.string(forKey: "joypad.hostIP") ?? "192.168.68.109" {
+        didSet { UserDefaults.standard.set(manualHostIP, forKey: "joypad.hostIP") }
+    }
     @Published public var activeMode: PadMode = .trackpad
     @Published public var dictationText: String = ""
+    @Published public var trackpadSensitivity: Double = 1.6
+    @Published public var cameraSensitivity: Double = 2.2
+    @Published public var isDragLockEnabled: Bool = false
+    @Published public var isGyroEnabled: Bool = false {
+        didSet { updateGyroState() }
+    }
     @Published public private(set) var rttMilliseconds: UInt32 = 0
     @Published public private(set) var packetsSent: UInt64 = 0
+
+    /// Aggregated state for concurrent Dual Sticks + Triggers + Buttons
+    public var currentGamepadState = GamepadStatePayload()
+    private let gyroManager = MotionGyroManager()
 
     private var browser: NWBrowser?
     private var connection: NWConnection?
@@ -46,7 +58,6 @@ public final class PadSessionClient: ObservableObject {
             guard let first = results.first else { return }
             Task { @MainActor [weak self] in
                 guard let self else { return }
-                // Only auto-connect via Bonjour if we don't already have an active connection
                 if !self.isConnected {
                     self.connect(to: first.endpoint, label: "\(first.endpoint)")
                 }
@@ -81,7 +92,6 @@ public final class PadSessionClient: ObservableObject {
                 case .ready:
                     self.isConnected = true
                     self.statusMessage = "Conectado a \(label)"
-                    // Immediately send an initial UDP ping datagram so macOS NWListener registers our peer
                     self.sendPing()
                     self.startHeartbeat()
                 case .failed(let err):
@@ -108,9 +118,55 @@ public final class PadSessionClient: ObservableObject {
         connection.send(content: data, completion: .idempotent)
     }
 
+    public func updateLeftStick(x: Int16, y: Int16) {
+        currentGamepadState.leftStickX = x
+        currentGamepadState.leftStickY = y
+        send(.gamepadState(currentGamepadState))
+    }
+
+    public func updateRightStick(x: Int16, y: Int16) {
+        currentGamepadState.rightStickX = x
+        currentGamepadState.rightStickY = y
+        send(.gamepadState(currentGamepadState))
+    }
+
+    public func pulseGamepadButton(_ button: GamepadButtons) {
+        currentGamepadState.buttons.insert(button)
+        send(.gamepadState(currentGamepadState))
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 65_000_000)
+            guard let self else { return }
+            self.currentGamepadState.buttons.remove(button)
+            self.send(.gamepadState(self.currentGamepadState))
+        }
+    }
+
+    public func pulseTriggers(l2: UInt8 = 0, r2: UInt8 = 0) {
+        currentGamepadState.triggerL2 = l2
+        currentGamepadState.triggerR2 = r2
+        send(.gamepadState(currentGamepadState))
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(nanoseconds: 80_000_000)
+            guard let self else { return }
+            self.currentGamepadState.triggerL2 = 0
+            self.currentGamepadState.triggerR2 = 0
+            self.send(.gamepadState(self.currentGamepadState))
+        }
+    }
+
     public func sendPing() {
         let nowMs = UInt32(truncatingIfNeeded: Int(Date().timeIntervalSince1970 * 1000))
         send(.controlSync(ControlSyncPayload(command: .ping, targetMode: activeMode, timestampMs: nowMs)))
+    }
+
+    private func updateGyroState() {
+        if isGyroEnabled {
+            gyroManager.startGyroUpdates { [weak self] sample in
+                self?.send(.gyroMotion(sample))
+            }
+        } else {
+            gyroManager.stopGyroUpdates()
+        }
     }
 
     private func startHeartbeat() {
